@@ -1,0 +1,84 @@
+<%- include('partials/head'); -%>
+
+<main>
+  <h1 class="title">Dashboard</h1>
+  <h2><a href="/createjob">Create a New Job</a></h2>
+
+  <div class="filter-order">
+    <div class="filter">
+      <ul>
+        <span>Filter</span>
+        <li>Status</li>
+        <li>Date</li>
+      </ul>
+    </div>
+
+    <div class="order">
+      <ul>
+        <span>Order</span>
+        <li>Asc.</li>
+        <li>Desc.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container-card">
+
+      <div class="card-job">
+        <h1>FrontEnd Dev</h1>
+        <p>Microsoft</p>
+        <div class="status">Status</div>
+        <a href="/job">See more</a>
+      </div>
+
+  </div>
+</main>
+
+<script>
+    // declaration liste
+    const filterList = document.querySelector('.filter ul');
+    const orderList = document.querySelector('.order ul');
+    
+    // declaration element liste
+    const filterItems = filterList.querySelectorAll('li');
+    const orderItems = orderList.querySelectorAll('li');
+  
+    // qd la souris survole
+    filterList.addEventListener('mouseenter', () => {
+      filterItems.forEach(item => {
+        item.style.display = 'block';
+      });
+    });
+  
+    // qd la souris survole plus
+    filterList.addEventListener('mouseleave', () => {
+      filterItems.forEach(item => {
+        item.style.display = 'none';
+      });
+    });
+  
+    // qd la souris survole
+    orderList.addEventListener('mouseenter', () => {
+      orderItems.forEach(item => {
+        item.style.display = 'block';
+      });
+    });
+  
+    // qd la souris ne survole plus
+    orderList.addEventListener('mouseleave', () => {
+      orderItems.forEach(item => {
+        item.style.display = 'none';
+      });
+    });
+  
+    // Cacher la liste
+    filterItems.forEach(item => {
+      item.style.display = 'none';
+    });
+    orderItems.forEach(item => {
+      item.style.display = 'none';
+    });
+
+
+  </script>
+  

@@ -16,7 +16,7 @@ nav {
     padding-top: 30px;
 
     .logo {
-      font-family: "Inter", sans-serif;
+      font-family: Inter, sans-serif;
       color: black;
       font-size: 20px;
       font-weight: 900;
@@ -53,7 +53,7 @@ nav {
             text-decoration: none;
             color: black;
 
-            &:hover{
+            &:hover {
               color: darkred;
             }
           }
@@ -71,6 +71,8 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 50px 20px;
+
+    // login ////////////////
 
     .title {
       font-family: "Inter", sans-serif;
@@ -129,6 +131,8 @@ body {
           }
         }
       }
+
+      // register ////////////////////
 
       .register {
         font-family: "Inter", sans-serif;
@@ -216,6 +220,8 @@ body {
       }
     }
 
+    // createJob ////////////////////////////////
+
     .createjob {
       width: 600px;
 
@@ -300,16 +306,236 @@ body {
           }
         }
       }
-      .input-comments{
+      .input-comments {
         width: 100%;
-    height: 150px;
-    padding: 10px;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    text-align: left;
-    vertical-align: top;
-    resize: none;
+        height: 150px;
+        padding: 10px;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        text-align: left;
+        vertical-align: top;
+        resize: none;
+      }
+      .btn-save {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: red;
+        margin-top: 20px;
+        width: 100px;
+        height: 40px;
+        border-radius: 5px;
+        cursor: pointer;
+
+        a {
+          color: white;
+          font-family: Inter, sans-serif;
+          text-decoration: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+        }
+
+        &:hover {
+          background-color: darkred;
+        }
+      }
+    }
+
+    // My profile ///////////////////////////////////
+
+    .img-info {
+      display: grid;
+      // background-color: darkgray;
+      width: 800px;
+      height: 300px;
+      grid-template-columns: 300px 500px;
+
+      .grid-pdp {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        grid-column: 0 / 1;
+        // background-color: white;
+
+        img {
+          width: 200px;
+          height: 250px;
+        }
+      }
+
+      .grid-info {
+        position: relative;
+        top: 40px;
+        left: 20px;
+        font-family: Inter, sans-serif;
+        font-weight: 700;
+
+        p {
+          padding: 0px 0px 25px 0px;
+        }
+
+        .curriculum {
+          display: inline-block;
+          margin: 7px 0px 0px 0px;
+        }
+        .file-input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+        }
+
+        .file-label {
+          display: inline-block;
+          padding: 8px 16px;
+          background-color: darkred;
+          color: #fff;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        .reset-password {
+          margin: 25px 0px 0px 0px;
+        }
+      }
+    }
+
+    // Dashboard ///////////////////
+
+    h2 {
+      font-family: "Inter", sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 29.05px;
+      margin-top: 10px;
+      text-align: left;
+
+      a {
+        text-decoration: none;
+      }
+    }
+
+    .filter-order {
+      font-family: Inter, sans-serif;
+      font-size: 15px;
+      display: flex;
+      justify-content: space-between;
+      width: 200px;
+      position: absolute;
+      top: 37%;
+      left: 15px;
+
+      .filter,
+      .order {
+        p {
+          font-weight: bold;
+        }
+
+        span {
+          font-weight: bold;
+          font-size: 16px;
+        }
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+          li {
+            margin: 5px 0;
+
+            &:hover {
+              color: white;
+              background-color: red;
+              border-radius: 5px;
+              padding-top: 3px;
+            }
+          }
+        }
+      }
+    }
+
+    .container-card {
+      font-family: Inter, sans-serif;
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      width: 100%;
+
+      .card-job {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        width: 250px;
+        height: 150px;
+        background-color: #bebebe;
+        border-radius: 10px;
+        border: red solid;
+
+        h1 {
+          font-size: 25px;
+        }
+      }
+      a {
+        text-decoration: none;
+      }
+      .status {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 15px;
+        background-color: red;
+        padding: 9px;
+        color: white;
+        border-radius: 5px;
+      }
+    }
+
+    // JOB ///////////////////////////////////
+
+    .link-dashboard{
+      font-family: Inter, sans-serif;
+      position: absolute;
+      top: 15%;
+      left: 15%;
+      text-decoration: none;
+    }
+
+    .info-job{
+      font-family: Inter, sans-serif;
+
+      p{
+        padding: 0px 0px 20px 0px;
+      }
+      h2{
+        padding-bottom: 10px;
+      }
+
+    }
+
+    .ligne{
+      margin-top: 10px;
+      width: 300px;
+      height: 1px;
+      background-color: black;
+    }
+
+    .btn-update{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      background-color: red;
+      width: 90px;
+      padding: 10px;
+      cursor: pointer;
+      a{
+        text-decoration: none;
+        color: white;
       }
     }
   }

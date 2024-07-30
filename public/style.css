@@ -16,7 +16,7 @@ nav .container-nav {
   padding-top: 30px;
 }
 nav .container-nav .logo {
-  font-family: "Inter", sans-serif;
+  font-family: Inter, sans-serif;
   color: black;
   font-size: 20px;
   font-weight: 900;
@@ -266,4 +266,193 @@ body main .createjob .input-comments {
   text-align: left;
   vertical-align: top;
   resize: none;
+}
+body main .createjob .btn-save {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  margin-top: 20px;
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+body main .createjob .btn-save a {
+  color: white;
+  font-family: Inter, sans-serif;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+body main .createjob .btn-save:hover {
+  background-color: darkred;
+}
+body main .img-info {
+  display: grid;
+  width: 800px;
+  height: 300px;
+  grid-template-columns: 300px 500px;
+}
+body main .img-info .grid-pdp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 0/1;
+}
+body main .img-info .grid-pdp img {
+  width: 200px;
+  height: 250px;
+}
+body main .img-info .grid-info {
+  position: relative;
+  top: 40px;
+  left: 20px;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+}
+body main .img-info .grid-info p {
+  padding: 0px 0px 25px 0px;
+}
+body main .img-info .grid-info .curriculum {
+  display: inline-block;
+  margin: 7px 0px 0px 0px;
+}
+body main .img-info .grid-info .file-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+body main .img-info .grid-info .file-label {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: darkred;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+body main .img-info .grid-info .reset-password {
+  margin: 25px 0px 0px 0px;
+}
+body main h2 {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 29.05px;
+  margin-top: 10px;
+  text-align: left;
+}
+body main h2 a {
+  text-decoration: none;
+}
+body main .filter-order {
+  font-family: Inter, sans-serif;
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+  position: absolute;
+  top: 37%;
+  left: 15px;
+}
+body main .filter-order .filter p,
+body main .filter-order .order p {
+  font-weight: bold;
+}
+body main .filter-order .filter span,
+body main .filter-order .order span {
+  font-weight: bold;
+  font-size: 16px;
+}
+body main .filter-order .filter ul,
+body main .filter-order .order ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+body main .filter-order .filter ul li,
+body main .filter-order .order ul li {
+  margin: 5px 0;
+}
+body main .filter-order .filter ul li:hover,
+body main .filter-order .order ul li:hover {
+  color: white;
+  background-color: red;
+  border-radius: 5px;
+  padding-top: 3px;
+}
+body main .container-card {
+  font-family: Inter, sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  width: 100%;
+}
+body main .container-card .card-job {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  width: 250px;
+  height: 150px;
+  background-color: #bebebe;
+  border-radius: 10px;
+  border: red solid;
+}
+body main .container-card .card-job h1 {
+  font-size: 25px;
+}
+body main .container-card a {
+  text-decoration: none;
+}
+body main .container-card .status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  background-color: red;
+  padding: 9px;
+  color: white;
+  border-radius: 5px;
+}
+body main .link-dashboard {
+  font-family: Inter, sans-serif;
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  text-decoration: none;
+}
+body main .info-job {
+  font-family: Inter, sans-serif;
+}
+body main .info-job p {
+  padding: 0px 0px 20px 0px;
+}
+body main .info-job h2 {
+  padding-bottom: 10px;
+}
+body main .ligne {
+  margin-top: 10px;
+  width: 300px;
+  height: 1px;
+  background-color: black;
+}
+body main .btn-update {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  background-color: red;
+  width: 90px;
+  padding: 10px;
+  cursor: pointer;
+}
+body main .btn-update a {
+  text-decoration: none;
+  color: white;
 }/*# sourceMappingURL=style.css.map */
