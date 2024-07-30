@@ -5,104 +5,311 @@
 }
 
 nav {
-  display: flex;
-  // justify-content: center;
-  align-items: center;
   width: 100%;
   height: 80px;
   background-color: #bebebe;
 
-  .logo {
-    font-family: Inter, sans-serif;
-    font-size: 25px;
-    font-weight: 900;
-    line-height: 24.2px;
-    padding: 0px 0px 0px 37px;
-    color: black;
+  .container-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 30px;
 
-    .tracker{
-      background-color: red;
-      color: white;
-      padding: 8px;
-      border-radius: 10px;
+    .logo {
+      font-family: "Inter", sans-serif;
+      color: black;
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 24.2px;
+      padding: 0 0 0 37px;
+      cursor: pointer;
+
+      a {
+        text-decoration: none;
+        color: black;
+
+        .tracker {
+          background-color: red;
+          color: white;
+          padding: 8px;
+          border-radius: 10px;
+        }
+      }
+    }
+
+    .nav-list {
+      ul {
+        display: flex;
+        list-style: none;
+        padding-right: 37px;
+        gap: 30px;
+
+        li {
+          font-family: "Inter", sans-serif;
+          font-weight: 900;
+          font-size: 20px;
+
+          a {
+            text-decoration: none;
+            color: black;
+
+            &:hover{
+              color: darkred;
+            }
+          }
+        }
+      }
     }
   }
 }
 
 body {
   background-color: #d9d9d9;
-  display: flex;
-  flex-direction: column;
-  main {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 600px;
 
-    h1 {
-      // margin-top: 50px;
-      font-family: Inter, sans-serif;
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 20px;
+
+    .title {
+      font-family: "Inter", sans-serif;
       font-size: 35px;
       font-weight: 700;
       line-height: 29.05px;
       text-align: center;
+      margin-bottom: 30px;
 
-      .welcome{
-        display: flex;
-        flex-direction: column;
+      .red-title {
         padding-top: 15px;
         color: red;
       }
     }
-    .input-login {
-      margin: 35px auto;
-      max-width: 400px;
 
-      p{
-        font-family: Inter, sans-serif;
+    .input-login {
+      max-width: 400px;
+      width: 100%;
+      margin-bottom: 20px;
+
+      p {
+        font-family: "Inter", sans-serif;
         font-size: 20px;
         font-weight: 400;
         line-height: 16.94px;
+      }
 
-      }
       input {
-        width: 400px;
-        margin: 10px 0px 10px 0px;
+        width: 100%;
+        margin: 10px 0;
         font-size: 20px;
-        padding: 1px;
+        padding: 3px;
       }
-      .password{
+
+      .password {
         padding-top: 15px;
       }
 
-      .btn-login{
+      .btn-login {
         display: flex;
         justify-content: center;
         align-items: center;
         background-color: red;
-        margin: 10px 0px 0px 0px;
-        width: 70px;
+        margin-top: 10px;
+        width: 100px;
         height: 40px;
         border-radius: 5px;
-        p{
-          color: white;
-        }
+        cursor: pointer;
 
+        p {
+          color: white;
+
+          a {
+            text-decoration: none;
+            color: white;
+          }
+        }
       }
 
-      .register{
-        font-family: Inter, sans-serif;
+      .register {
+        font-family: "Inter", sans-serif;
         margin-top: 25px;
         font-weight: 400;
         font-size: 16px;
-        .red-register{
+
+        .red-register {
           color: red;
-          a{
+
+          a {
             color: red;
             text-decoration: none;
           }
         }
+      }
+    }
+
+    .name {
+      max-width: 400px;
+      width: 100%;
+      margin-bottom: 20px;
+
+      .container {
+        display: flex;
+        justify-content: space-between;
+
+        .container-firstname,
+        .container-lastname {
+          width: 48%;
+        }
+      }
+
+      input {
+        padding: 3px;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      p {
+        font-family: "Inter", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 16.94px;
+        padding-bottom: 5px;
+      }
+
+      .container-upload {
+        display: flex;
+      }
+
+      .btn-register {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: red;
+        margin-top: 10px;
+        width: 100px;
+        height: 40px;
+        border-radius: 5px;
+
+        a {
+          text-decoration: none;
+
+          p {
+            color: white;
+          }
+        }
+      }
+
+      .login {
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 16.94px;
+        padding-bottom: 5px;
+        margin-top: 15px;
+
+        .red-login {
+          a {
+            color: red;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+
+    .createjob {
+      width: 600px;
+
+      .job-title {
+        padding-top: 50px;
+      }
+
+      p {
+        font-family: "Inter", sans-serif;
+        font-size: 15px;
+        padding-top: 15px;
+        font-weight: 400;
+        line-height: 16.94px;
+      }
+
+      input {
+        padding: 3px;
+        font-size: 15px;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      h2 {
+        font-family: "Inter", sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 29.05px;
+        margin-top: 10px;
+        text-align: left;
+      }
+
+      .origin {
+        display: flex;
+        margin-top: 25px;
+        gap: 50px;
+
+        ul {
+          font-family: "Inter", sans-serif;
+          list-style: none;
+          font-size: 15px;
+          font-weight: 400;
+          line-height: 29.05px;
+          text-align: left;
+          width: 100%;
+          background-color: white;
+          border-radius: 5px;
+
+          li {
+            padding-left: 5px;
+            &:hover {
+              border-radius: 5px;
+              color: white;
+              background-color: darkred;
+            }
+          }
+        }
+      }
+
+      .status {
+        display: flex;
+        margin-top: 15px;
+        gap: 43px;
+
+        ul {
+          font-family: "Inter", sans-serif;
+          list-style: none;
+          font-size: 15px;
+          font-weight: 400;
+          line-height: 29.05px;
+          text-align: left;
+          width: 100%;
+          background-color: white;
+          border-radius: 5px;
+
+          li {
+            padding-left: 5px;
+            &:hover {
+              border-radius: 5px;
+              color: white;
+              background-color: darkred;
+            }
+          }
+        }
+      }
+      .input-comments{
+        width: 100%;
+    height: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    text-align: left;
+    vertical-align: top;
+    resize: none;
       }
     }
   }

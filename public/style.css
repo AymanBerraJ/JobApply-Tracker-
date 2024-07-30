@@ -5,67 +5,91 @@
 }
 
 nav {
-  display: flex;
-  align-items: center;
   width: 100%;
   height: 80px;
   background-color: #bebebe;
 }
-nav .logo {
-  font-family: Inter, sans-serif;
-  font-size: 25px;
+nav .container-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+}
+nav .container-nav .logo {
+  font-family: "Inter", sans-serif;
+  color: black;
+  font-size: 20px;
   font-weight: 900;
   line-height: 24.2px;
-  padding: 0px 0px 0px 37px;
+  padding: 0 0 0 37px;
+  cursor: pointer;
+}
+nav .container-nav .logo a {
+  text-decoration: none;
   color: black;
 }
-nav .logo .tracker {
+nav .container-nav .logo a .tracker {
   background-color: red;
   color: white;
   padding: 8px;
   border-radius: 10px;
 }
+nav .container-nav .nav-list ul {
+  display: flex;
+  list-style: none;
+  padding-right: 37px;
+  gap: 30px;
+}
+nav .container-nav .nav-list ul li {
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  font-size: 20px;
+}
+nav .container-nav .nav-list ul li a {
+  text-decoration: none;
+  color: black;
+}
+nav .container-nav .nav-list ul li a:hover {
+  color: darkred;
+}
 
 body {
   background-color: #d9d9d9;
-  display: flex;
-  flex-direction: column;
 }
 body main {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px;
 }
-body main h1 {
-  font-family: Inter, sans-serif;
+body main .title {
+  font-family: "Inter", sans-serif;
   font-size: 35px;
   font-weight: 700;
   line-height: 29.05px;
   text-align: center;
+  margin-bottom: 30px;
 }
-body main h1 .welcome {
-  display: flex;
-  flex-direction: column;
+body main .title .red-title {
   padding-top: 15px;
   color: red;
 }
 body main .input-login {
-  margin: 35px auto;
   max-width: 400px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 body main .input-login p {
-  font-family: Inter, sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 20px;
   font-weight: 400;
   line-height: 16.94px;
 }
 body main .input-login input {
-  width: 400px;
-  margin: 10px 0px 10px 0px;
+  width: 100%;
+  margin: 10px 0;
   font-size: 20px;
-  padding: 1px;
+  padding: 3px;
 }
 body main .input-login .password {
   padding-top: 15px;
@@ -75,16 +99,21 @@ body main .input-login .btn-login {
   justify-content: center;
   align-items: center;
   background-color: red;
-  margin: 10px 0px 0px 0px;
-  width: 70px;
+  margin-top: 10px;
+  width: 100px;
   height: 40px;
   border-radius: 5px;
+  cursor: pointer;
 }
 body main .input-login .btn-login p {
   color: white;
 }
+body main .input-login .btn-login p a {
+  text-decoration: none;
+  color: white;
+}
 body main .input-login .register {
-  font-family: Inter, sans-serif;
+  font-family: "Inter", sans-serif;
   margin-top: 25px;
   font-weight: 400;
   font-size: 16px;
@@ -95,4 +124,146 @@ body main .input-login .register .red-register {
 body main .input-login .register .red-register a {
   color: red;
   text-decoration: none;
+}
+body main .name {
+  max-width: 400px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+body main .name .container {
+  display: flex;
+  justify-content: space-between;
+}
+body main .name .container .container-firstname,
+body main .name .container .container-lastname {
+  width: 48%;
+}
+body main .name input {
+  padding: 3px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+body main .name p {
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 16.94px;
+  padding-bottom: 5px;
+}
+body main .name .container-upload {
+  display: flex;
+}
+body main .name .btn-register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  margin-top: 10px;
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+}
+body main .name .btn-register a {
+  text-decoration: none;
+}
+body main .name .btn-register a p {
+  color: white;
+}
+body main .name .login {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.94px;
+  padding-bottom: 5px;
+  margin-top: 15px;
+}
+body main .name .login .red-login a {
+  color: red;
+  text-decoration: none;
+}
+body main .createjob {
+  width: 600px;
+}
+body main .createjob .job-title {
+  padding-top: 50px;
+}
+body main .createjob p {
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  padding-top: 15px;
+  font-weight: 400;
+  line-height: 16.94px;
+}
+body main .createjob input {
+  padding: 3px;
+  font-size: 15px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+body main .createjob h2 {
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 29.05px;
+  margin-top: 10px;
+  text-align: left;
+}
+body main .createjob .origin {
+  display: flex;
+  margin-top: 25px;
+  gap: 50px;
+}
+body main .createjob .origin ul {
+  font-family: "Inter", sans-serif;
+  list-style: none;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 29.05px;
+  text-align: left;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+}
+body main .createjob .origin ul li {
+  padding-left: 5px;
+}
+body main .createjob .origin ul li:hover {
+  border-radius: 5px;
+  color: white;
+  background-color: darkred;
+}
+body main .createjob .status {
+  display: flex;
+  margin-top: 15px;
+  gap: 43px;
+}
+body main .createjob .status ul {
+  font-family: "Inter", sans-serif;
+  list-style: none;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 29.05px;
+  text-align: left;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+}
+body main .createjob .status ul li {
+  padding-left: 5px;
+}
+body main .createjob .status ul li:hover {
+  border-radius: 5px;
+  color: white;
+  background-color: darkred;
+}
+body main .createjob .input-comments {
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  text-align: left;
+  vertical-align: top;
+  resize: none;
 }/*# sourceMappingURL=style.css.map */

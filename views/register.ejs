@@ -1,0 +1,53 @@
+<%- include('partials/head'); -%>
+
+<main>
+  <h1 class="title">Create your <span class="red-title">account</span></h1>
+
+  <div class="name">
+    <div class="container">
+        <div class="container-firstname">
+
+            <p class="firstname">Firstname</p>
+            <input class="input-firstname" name="firstname" type="text" placeholder="firstname"/>
+
+        </div>
+        <div class="container-lastname">
+
+            <p class="lastname">Lastname</p>
+            <input class="input-lastname" type="text" name="lastname" placeholder="lastname"/>
+
+        </div>
+
+    </div>
+
+    <p class="github">GitHub</p>
+    <input class="input-github" name="github" type="text" placeholder="GitHub">
+
+    <div class="container-upload">
+        <div class="profile">
+            <p class="picture">Profile-picture</p>
+            <input class="input-picture" type="file" name="picture">
+        </div>
+        <div class="curriculum">
+            <p class="cv">CV</p>
+            <input class="input-cv" type="file" name="curriculum" >
+        </div>
+    </div>
+
+    <p class="password">password</p>
+    <input class="input-password" name="password" type="password" placeholder="password">
+
+    
+    <p class="confirmation-P">confirmation password</p>
+    <input class="input-confirmationP" name="password" type="password" placeholder="password">
+
+    <div class="btn-register">
+        <a href="/login">
+            <p>Create</p>
+        </a>
+    </div>
+
+    <p class="login">Already registered ? <span class="red-login"><a href="/login">Login</a></span></p>
+
+  </div>
+</main>

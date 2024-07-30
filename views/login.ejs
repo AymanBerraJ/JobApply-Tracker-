@@ -1,20 +1,26 @@
 <%- include('partials/head'); -%>
 
-    <main>
-        <h1 class="title-login">Hello, <span class="welcome">Welcome !</span></h1>
-        <img src="" alt="">
+<main>
+  <h1 class="title">Hello, <span class="red-title">Welcome !</span></h1>
 
-        <div class="input-login">
-            <p class="email">email</p>
-            <input class="input-email" type="text" placeholder="Enter your email">
-            
-            <p class="password">password</p>
-            <input class="input-password" type="text" placeholder="Enter your password">
+  <div class="input-login">
+    <p class="email">email</p>
+    <input class="input-email" type="text" placeholder="Enter your email" />
 
-            <div class="btn-login">
-                <p>login</p>
-            </div>
+    <p class="password">password</p>
+    <input
+      class="input-password"
+      type="text"
+      placeholder="Enter your password"
+    />
 
-            <p class="register">Not registered yet? <span class="red-register"><a href="/register">Register</a></span></p>
-        </div>
-    </main>
+    <div class="btn-login">
+      <p> <a href="/dashboard">login</a></p>
+    </div>
+
+    <p class="register">
+      Not registered yet?
+      <span class="red-register"><a href="/register">Register</a></span>
+    </p>
+  </div>
+</main>
