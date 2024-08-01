@@ -25,7 +25,7 @@ mongoose
   .then((result) => app.listen(port))
   .catch((err) => console.log(err));
 
-app.get("/login", (req, res) => {
+app.get("/", (req, res) => {
   res.render("login");
 });
 app.get("/register", (req, res) => {
