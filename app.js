@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
-const path = require("path");
 const mongoose = require("mongoose");
-const cookieParser = require('cookie-parser')
-// const authRoutes = require("./routes/authRoutes");
-// const { requireAuth, checkUser } = require("./middleware/authMiddleware");
+const authRoutes = require('./routes/authRoutes');
+const cookieParser = require('cookie-parser');
+const { requierAuth, checkUser } = require('./middleware/authMiddleware')
+const path = require("path");
 const port = 3000;
 
 // import ejs
@@ -12,20 +12,24 @@ app.set("view engine", "ejs");
 app.engine("html", require("ejs").renderFile);
 app.use(express.static(path.join(__dirname, "public")));
 
-// database connection
+// middleware
 
-const dbURI =
-  "mongodb+srv://beayman35:rigmC9v8rATam6v3@cluster0.ewewown.mongodb.net/jobApply";
+app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use((req, res, next) => {
+  res.locals.user = req.user || null; // Assigner l'utilisateur localement à res.locals.user
+  next();
+});
 
-mongoose
-  .connect(dbURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then((result) => app.listen(port))
-  .catch((err) => console.log(err));
+// routes
 
-app.get("/", (req, res) => {
+app.use(authRoutes);
+
+
+app.get('*', checkUser);
+app.get("/login", (req, res) => {
   res.render("login");
 });
 app.get("/register", (req, res) => {
@@ -43,3 +47,14 @@ app.get("/profile", (req, res) => {
 app.get("/job", (req, res) => {
   res.render("job");
 });
+
+
+// database connection
+
+const dbURI =
+  "mongodb+srv://beayman35:rigmC9v8rATam6v3@cluster0.ewewown.mongodb.net/jobApply";
+
+mongoose
+  .connect(dbURI)
+  .then((result) => app.listen(port))
+  .catch((err) => console.log(err));

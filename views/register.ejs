@@ -3,51 +3,111 @@
 <main>
   <h1 class="title">Create your <span class="red-title">account</span></h1>
 
-  <div class="name">
+  <form class="name">
     <div class="container">
-        <div class="container-firstname">
-
-            <p class="firstname">Firstname</p>
-            <input class="input-firstname" name="firstname" type="text" placeholder="firstname"/>
-
-        </div>
-        <div class="container-lastname">
-
-            <p class="lastname">Lastname</p>
-            <input class="input-lastname" type="text" name="lastname" placeholder="lastname"/>
-
-        </div>
-
+      <div class="container-firstname">
+        <label for="firstname" class="firstname">Firstname</label>
+        <input
+          id="firstname"
+          class="input-firstname"
+          name="firstname"
+          type="text"
+          placeholder="firstname"
+        />
+      </div>
+      <div class="container-lastname">
+        <label for="lastname" class="lastname">Lastname</label>
+        <input id="lastname" class="input-lastname" type="text" name="lastname" placeholder="lastname"/>
+      </div>
     </div>
 
-    <p class="github">GitHub</p>
-    <input class="input-github" name="github" type="text" placeholder="GitHub">
+    <label for="email" class="email">Email</label>
+    <input id="email" type="text" name="email" placeholder="xxxxxx@gmail.com" required/>
+    <div class="email error"></div>
+
+    <label for="github" class="github">GitHub</label>
+    <input id="github" class="input-github" name="github" type="text" placeholder="GitHub"/>
 
     <div class="container-upload">
-        <div class="profile">
-            <p class="picture">Profile-picture</p>
-            <input class="input-picture" type="file" name="picture">
-        </div>
-        <div class="curriculum">
-            <p class="cv">CV</p>
-            <input class="input-cv" type="file" name="curriculum" >
-        </div>
+      <div class="profile">
+        <label for="picture" class="picture">Profile-picture</label>
+        <input id="picture" class="input-picture" type="file" name="picture" />
+      </div>
+      <div class="curriculum">
+        <label for="curriculum" class="cv">CV</label>
+        <input id="curriculum" class="input-cv" type="file" name="curriculum" />
+      </div>
     </div>
 
-    <p class="password">password</p>
-    <input class="input-password" name="password" type="password" placeholder="password">
+    <label for="password" class="password">Password</label>
+    <input
+      id="password"
+      class="input-password"
+      name="password"
+      type="password"
+      placeholder="password"
+      required
+    />
+    <div class="password error"></div>
 
-    
-    <p class="confirmation-P">confirmation password</p>
-    <input class="input-confirmationP" name="password" type="password" placeholder="password">
+    <label for="confirmationPassword" class="confirmation-P"
+      >Confirmation Password</label
+    >
+    <input
+      id="confirmationPassword"
+      class="input-confirmationP"
+      name="confirmationPassword"
+      type="password"
+      placeholder="password"
+      required
+    />
+    <div class="password error"></div>
 
     <div class="btn-register">
-        <a href="/login">
-            <p>Create</p>
-        </a>
+      <button type="submit">Create</button>
     </div>
 
-    <p class="login">Already registered ? <span class="red-login"><a href="/login">Login</a></span></p>
-
-  </div>
+    <p class="login">
+      Already registered?
+      <span class="red-login"><a href="/login">Login</a></span>
+    </p>
+  </form>
 </main>
+
+<script>
+  const form = document.querySelector("form");
+  const emailError = document.querySelector(".email.error");
+  const passwordError = document.querySelector(".password.error");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // reset les messages d'erreur
+    emailError.textContent = "";
+    passwordError.textContent = "";
+
+    // get the values
+    const email = form.email.value;
+    const password = form.password.value;
+
+    try {
+      const res = await fetch("/register", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      if (data.errors) {
+        if (data.errors.email) {
+          emailError.textContent = data.errors.email;
+          passwordError.textContent = data.errors.password;
+        }
+      }
+      if (data.user) {
+        location.assign("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+</script>

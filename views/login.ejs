@@ -3,24 +3,59 @@
 <main>
   <h1 class="title">Hello, <span class="red-title">Welcome !</span></h1>
 
-  <div class="input-login">
-    <p class="email">email</p>
-    <input class="input-email" type="text" placeholder="Enter your email" />
+  <form>
+    <div class="input-login">
+      <label for="email" class="email">Email</label>
+      <input id="email" class="input-email" name="email" type="text" placeholder="Enter your email" />
+      <div class="email error"></div>
+      <label for="password" class="password">Password</label>
+      <input id="password" class="input-password" name="password" type="password" placeholder="Enter your password" />
+      <div class="password error"></div>
 
-    <p class="password">password</p>
-    <input
-      class="input-password"
-      type="text"
-      placeholder="Enter your password"
-    />
+      <div class="btn-login">
+        <button type="submit">Login</button>
+      </div>
 
-    <div class="btn-login">
-      <p> <a href="/dashboard">login</a></p>
+      <p class="register">
+        Not registered yet?
+        <span class="red-register"><a href="/register">Register</a></span>
+      </p>
     </div>
-
-    <p class="register">
-      Not registered yet?
-      <span class="red-register"><a href="/register">Register</a></span>
-    </p>
-  </div>
+  </form>
 </main>
+
+<script>
+  const form = document.querySelector('form');
+  const emailError = document.querySelector(".email.error");
+  const passwordError = document.querySelector(".password.error");
+
+  form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+    // reset les messages d'erreur
+    emailError.textContent = '';
+    passwordError.textContent = '';
+
+    // get the values
+    const email = form.email.value;
+    const password = form.password.value;
+
+    try {
+      const res = await fetch("/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      if (data.errors) {
+        emailError.textContent = data.errors.email;
+        passwordError.textContent = data.errors.password;
+      }
+      if (data.user) {
+        location.assign("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+</script>
