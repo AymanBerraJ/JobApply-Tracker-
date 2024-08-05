@@ -29,6 +29,9 @@ app.use(authRoutes);
 
 
 app.get('*', checkUser);
+app.get("/", (req, res) => {
+  res.render("login");
+});
 app.get("/login", (req, res) => {
   res.render("login");
 });
