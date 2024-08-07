@@ -56,9 +56,10 @@ app.get("/job", (req, res) => {
 app.get('*', checkUser)
 app.get('/', (req, res) => res.render('login', { user: req.user }))
 app.get('/profile',  requireAuth, (req, res) => res.render('profile'))
-app.get('/viewjob',  requireAuth)
 app.get('/dashboard',  requireAuth)
-app.get('/job', (req, res) => {res.render('job')})
+// app.get('/job', (req, res) => {res.render('job')})
+// app.get('/job/:id', (req, res) => {res.render('job')})
+
 app.get('/register',  (req, res) => res.render('register'))
 
 // database connection

@@ -151,6 +151,20 @@ module.exports.createjob_post = async (req, res) => {
 
 // job
 
-module.exports.job_get = (req, res) => {
-  res.render("job");
+module.exports.job_get = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log('Received ID:', id);
+    const data = await Job.findById(id);
+
+    console.log('Fetched Data:', data);
+    if (!data) {
+      return res.status(404).render('job', { message: "Job not found" }); // Utilisez une vue d'erreur
+    }
+    res.render('job', { data });
+  } catch (error) {
+    console.error('Error occurred:', error);
+    res.status(500).json({ message: error.message });
+  }
 };
+

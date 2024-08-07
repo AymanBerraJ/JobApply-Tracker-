@@ -28,7 +28,7 @@
       <h1><%= job.jobtitle %></h1>
       <p><%= job.jobcompany %></p>
       <div class="statusJob"><%= job.status %></div>
-      <a href="/job">See more</a>
+      <a href="/job/<%= job.id %>">See more</a>
     </div>
     <% }); %>
   </div>

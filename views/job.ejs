@@ -1,28 +1,27 @@
 <%- include('partials/head'); -%>
 
 <main>
-    <h1 class="title">FrontEnd</h1>
+    <h1 class="title"><%= data.jobtitle %></h1>
     <a class="link-dashboard" href="/dashboard">Return to Dashboard</a>
-
+  
     <div class="info-job">
-
-        <p>Company : facebook</p>
-        <p>Website : http://facebooke</p>
-        <div class="ligne"></div>
-
-        <h2>Contact of the employer</h2>
-        <p>Name : Ayman</p>
-        <p>Email : proute@gmail.com</p>
-        <p>Phone : 0498 68 59 48</p>
-        <p>Address : rue des charpentiers 99</p>
-        <div class="ligne"></div>
-
-        <h2>Candidature Spontanée</h2>
-        <p>Status : CV sent</p>
-        <p>Comments : Prefer to die</p>
-
-        <div class="btn-update">
-            <a href="/dashboard">Update</a>
-        </div>
+      <p>Company: <%= data.jobcompany %></p>
+      <p>Website: <%= data.website %></p>
+      <div class="ligne"></div>
+  
+      <h2>Contact of the Employer</h2>
+      <p>Name: <%= data.nameemployer %></p>
+      <p>Email: <%= data.emailcontact %></p>
+      <p>Phone: <%= data.phonenumber %></p>
+      <p>Address: <%= data.address %></p>
+      <div class="ligne"></div>
+  
+      <h2>Candidature Spontanée</h2>
+      <p>Status: <%= data.origin %> <%= data.status %></p>
+      <p>Comments: <%= data.comments %></p>
+  
+      <div class="btn-update">
+        <a href="/dashboard">Update</a>
+      </div>
     </div>
 </main>

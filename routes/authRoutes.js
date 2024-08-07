@@ -15,6 +15,7 @@ router.get('/dashboard', authController.dashboard_get)
 router.get('/createjob', authController.createjob_get)
 router.post('/createjob', authController.createjob_post)
 
+// router.get('/job', authController.job_get)
 router.get('/job/:id', authController.job_get)
 
 router.get('/logout', authController.logout_get)
