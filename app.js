@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
-const { requierAuth, checkUser } = require('./middleware/authMiddleware')
+const { requireAuth, checkUser } = require('./middleware/authMiddleware')
 const path = require("path");
 const port = 3000;
 
@@ -22,39 +22,30 @@ app.use((req, res, next) => {
   res.locals.user = req.user || null; // Assigner l'utilisateur localement à res.locals.user
   next();
 });
+app.use(requireAuth);
+
 
 // routes
 
 app.use(authRoutes);
 
 
-app.get('*', checkUser);
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-app.get("/register", (req, res) => {
-  res.render("register");
-});
-app.get("/createjob", (req, res) => {
-  res.render("createjob");
-});
-app.get("/dashboard", (req, res) => {
-  res.render("dashboard");
-});
-app.get("/profile", (req, res) => {
-  res.render("profile");
-});
-app.get("/job", (req, res) => {
-  res.render("job");
-});
-
+app.get('*', checkUser)
+app.get('/', (req, res) => res.render('login', { user: req.user }))
+app.get('/profile',  requireAuth, (req, res) => res.render('profile'))
+app.get('/viewjob',  requireAuth)
+app.get('/dashboard',  requireAuth)
+app.get('/job', (req, res) => {res.render('job')})
+app.get('/register',  (req, res) => res.render('register'))
 
 // database connection
 
 const dbURI =
-  "mongodb+srv://beayman35:rigmC9v8rATam6v3@cluster0.ewewown.mongodb.net/jobApply";
+"mongodb+srv://beayman35:rigmC9v8rATam6v3@cluster0.ewewown.mongodb.net/jobApply";
 
 mongoose
-  .connect(dbURI)
-  .then((result) => app.listen(port))
-  .catch((err) => console.log(err));
+.connect(dbURI)
+.then((result) => app.listen(port))
+.catch((err) => console.log(err));
+
+

@@ -8,9 +8,9 @@
             <img src="" alt="">
         </div>
         <div class="grid-info">
-            <p>Full name : </p>
-            <p>Email : </p>
-            <p>GitHub : </p>
+            <p>Full name : <%= user.firstname+' '+user.lastname %> </p>
+            <p>Email : <%= user.email %> </p>
+            <p>GitHub : <%= user.github %></p>
 
             <div class="curriculum">
                 <input type="file" id="file" class="file-input" />

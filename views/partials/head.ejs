@@ -14,25 +14,22 @@
   <body>
     <nav>
       <div class="container-nav">
-
         <div class="logo">
           <a href="/dashboard">
             JOB APPLY
             <span class="tracker">TRACKER</span></a>
         </div>
-
         <div class="nav-list">
           <ul>
-          <% if (user) { %>
-            <li>Welcome, <%= user.email %></li>
-            <li><a href="/logout">Log out</a></li>
-          <% } else { %>
-            <li><a href="/login">Log in</a></li>
-            <li><a href="/register">Sign up</a></li>
-          <% } %>
-        </ul>
+            <% if (user) { %>
+              <li>Welcome, <a href="/profile"><%= user.firstname %></a></li>
+              <li><a href="/logout">Log out</a></li>
+            <% } else { %>
+              <li><a href="/login">Log in</a></li>
+              <li><a href="/register">Sign up</a></li>
+            <% } %>
+          </ul>
         </div>
-
       </div>
     </nav>
   </body>
