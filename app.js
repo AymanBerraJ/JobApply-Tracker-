@@ -30,6 +30,29 @@ app.use(requireAuth);
 app.use(authRoutes);
 
 
+app.get('*', checkUser);
+app.get("/", (req, res) => {
+  res.render("login");
+});
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+app.get("/createjob", (req, res) => {
+  res.render("createjob");
+});
+app.get("/dashboard", (req, res) => {
+  res.render("dashboard");
+});
+app.get("/profile", (req, res) => {
+  res.render("profile");
+});
+app.get("/job", (req, res) => {
+  res.render("job");
+});
+
 app.get('*', checkUser)
 app.get('/', (req, res) => res.render('login', { user: req.user }))
 app.get('/profile',  requireAuth, (req, res) => res.render('profile'))
