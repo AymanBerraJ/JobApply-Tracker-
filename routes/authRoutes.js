@@ -18,6 +18,9 @@ router.post('/createjob', authController.createjob_post)
 // router.get('/job', authController.job_get)
 router.get('/job/:id', authController.job_get)
 
+router.get('/editjob/:id', authController.editjob_get)
+router.post('/editjob/:id', authController.editjob_post)
+
 router.get('/logout', authController.logout_get)
 
 module.exports = router;

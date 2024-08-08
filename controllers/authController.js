@@ -47,7 +47,6 @@ const createToken = (id) => {
 module.exports.register_get = (req, res) => {
   res.render("register");
 };
-
 module.exports.register_post = async (req, res) => {
   const {
     firstname,
@@ -105,29 +104,35 @@ module.exports.logout_get = (req, res) => {
 };
 
 // Dashboard
-
 module.exports.dashboard_get = async (req, res) => {
   try {
-    const jobs = await Job.find({})
-    res.render('dashboard', { jobs }) 
+    const jobs = await Job.find({});
+    res.render("dashboard", { jobs });
   } catch (error) {
-    console.log(error)
-    res.status(500).send("An error") 
+    console.log(error);
+    res.status(500).send("An error");
   }
-
 };
 
 // Createjob
-
 module.exports.createjob_get = (req, res) => {
   res.render("createjob");
 };
 module.exports.createjob_post = async (req, res) => {
-  const { jobtitle, jobcompany, website, nameemployer, emailcontact, phonenumber, address, origin, status, comments } = req.body;
+  const {
+    jobtitle,
+    jobcompany,
+    website,
+    nameemployer,
+    emailcontact,
+    phonenumber,
+    address,
+    origin,
+    status,
+    comments,
+  } = req.body;
 
-  
   try {
-    
     const job = await Job.create({
       jobtitle,
       jobcompany,
@@ -140,31 +145,76 @@ module.exports.createjob_post = async (req, res) => {
       status,
       comments,
     });
-    res.status(201).json({ job: job._id })
-  }catch(error){
-    console.log(error)
+    res.status(201).json({ job: job._id });
+  } catch (error) {
+    console.log(error);
 
-    const errors = handleErrors(error)
-    res.status(400).json({ errors })
+    const errors = handleErrors(error);
+    res.status(400).json({ errors });
   }
 };
 
 // job
-
 module.exports.job_get = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log('Received ID:', id);
+    console.log("Received ID:", id);
     const data = await Job.findById(id);
 
-    console.log('Fetched Data:', data);
+    console.log("Fetched Data:", data);
     if (!data) {
-      return res.status(404).render('job', { message: "Job not found" }); // Utilisez une vue d'erreur
+      return res.status(404).render("job", { message: "Job not found" });
     }
-    res.render('job', { data });
+    res.render("job", { data });
   } catch (error) {
-    console.error('Error occurred:', error);
+    console.error("Error occurred:", error);
     res.status(500).json({ message: error.message });
   }
 };
 
+// job update
+module.exports.editjob_get  = async (req, res) => {
+  try {
+    const job = await Job.findById(req.params.id);
+    if (job) {
+        res.render('editjob', { data: job });
+    } else {
+        res.status(404).send('Job not found');
+    }
+} catch (error) {
+    console.log(error);
+    res.status(500).send('Server Error');
+}
+}
+module.exports.editjob_post = async (req, res) => {
+  try {
+    const job = await Job.findByIdAndUpdate(req.params.id, {
+      jobtitle: req.body.jobtitle,
+      jobcompany: req.body.jobcompany,
+      website: req.body.website,
+      nameemployer: req.body.nameemployer,
+      emailcontact: req.body.emailcontact,
+      phonenumber: req.body.phonenumber,
+      address: req.body.address,
+      origin: req.body.origin,
+      status: req.body.status,
+      comments: req.body.comments,
+    }, { new: true });
+
+    console.log('Job updated successfully');
+    res.json({ job });
+  } catch (error) {
+    console.log('Error updating job:', error);
+    res.status(500).json({ message: 'Server Error', error });
+  }
+}
+
+// delete
+// module.exports.deleteJob_delete = async (req, res) => {
+//   try {
+//     await Job.deleteOne( { _id: req.params.id } )
+//     res.redirect('/dashboard')
+//   } catch (error) {
+//       console.log(error)
+//   }
+// }

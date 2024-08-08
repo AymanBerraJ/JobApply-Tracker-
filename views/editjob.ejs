@@ -1,14 +1,14 @@
 <%- include('partials/head'); -%>
 
 <main>
-  <h1 class="title">Create Job</h1>
-  <a class="link-dashboard" href="/dashboard">Return to Dashboard</a>
+  <h1 class="title">Edit Job</h1>
 
-  <form action="/createjob" method="POST">
+  <form action="/editjob/<%= data._id %>" method="POST">
     <div class="createjob">
       <label class="job-title" for="job-title">Job title</label>
       <input
         class="input-job"
+        value="<%= data.jobtitle %>"
         type="text"
         id="job-title"
         name="jobtitle"
@@ -19,6 +19,7 @@
       <label class="job-company" for="job-company">Job Company</label>
       <input
         class="input-job"
+        value="<%= data.jobcompany %>"
         type="text"
         id="job-company"
         name="jobcompany"
@@ -29,6 +30,7 @@
       <label class="website" for="website">Website</label>
       <input
         class="input-website"
+        value="<%= data.website %>"
         type="text"
         id="website"
         name="website"
@@ -41,6 +43,7 @@
       <label class="name-employer" for="nameemployer">Name</label>
       <input
         class="input-nameE"
+        value="<%= data.nameemployer %>"
         type="text"
         id="name-employer"
         name="nameemployer"
@@ -51,6 +54,7 @@
       <label class="email-contact" for="emailcontact">Email of Contact</label>
       <input
         class="input-email-contact"
+        value="<%= data.emailcontact %>"
         type="email"
         id="email-contact"
         name="emailcontact"
@@ -60,6 +64,7 @@
       <label class="phone-number" for="phonenumber">Phone Number</label>
       <input
         class="input-phone"
+        value="<%= data.phonenumber %>"
         type="text"
         id="phone-number"
         name="phonenumber"
@@ -70,6 +75,7 @@
       <label class="address" for="address">Address</label>
       <input
         class="input-address"
+        value="<%= data.address %>"
         type="text"
         id="address"
         name="address"
@@ -118,6 +124,7 @@
       <label class="comments" for="comments">Comments</label>
       <textarea
         class="input-comments"
+        value="<%= data.comments %>"
         id="comments"
         name="comments"
         placeholder="Enter your comment here ..."
@@ -148,7 +155,7 @@
     const comments = form.comments.value;
 
     try {
-      const res = await fetch("/createjob", {
+      const res = await fetch(`/editjob/<%= data._id %>`, {
         method: "POST",
         body: JSON.stringify({
           jobtitle,
@@ -165,9 +172,13 @@
         headers: { "Content-Type": "application/json" },
       });
 
-      const data = await res.json();
-      if (data.job) {
-        location.assign("/dashboard");
+      if (res.redirected) {
+        window.location.href = res.url;
+      } else {
+        const data = await res.json();
+        if (data.job) {
+          location.assign(`/job/${data.job._id}`);
+        }
       }
     } catch (error) {
       console.log(error);
