@@ -24,6 +24,30 @@ const fileUpload = require('express-fileupload')
 //   });
 // }
 
+
+// Multer Fichier
+
+const multer = require('multer');
+const path = require('path');
+
+// Configuration de multer pour le stockage sur disque
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    if (file.fieldname === 'profilePicture') {
+      cb(null, './uploads/profilePictures');
+    } else if (file.fieldname === 'cvDocuments') {
+      cb(null, './uploads/cvDocuments');
+    }
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
+
+
+
 //handle errors
 
 const handleErrors = (err) => {
@@ -70,37 +94,40 @@ module.exports.register_get = (req, res) => {
   res.render("register");
 };
 module.exports.register_post = async (req, res) => {
-  const {
-    firstname,
-    lastname,
-    email,
-    password,
-    github,
-    profilePicture,
-    cvDocuments,
-  } = req.body;
+  upload.fields([{ name: 'profilePicture', maxCount: 1 }, { name: 'cvDocuments', maxCount: 1 }])(req, res, async function (err) {
+    if (err) {
+      return res.status(400).json({ errors: err.message });
+    }
 
-  try {
-
-    const user = await User.create({
+    const {
       firstname,
       lastname,
       email,
       password,
       github,
-      profilePicture,
-      cvDocuments,
-    });
+    } = req.body;
 
+    try {
+      const user = await User.create({
+        firstname,
+        lastname,
+        email,
+        password,
+        github,
+        profilePicture: req.files['profilePicture'] ? req.files['profilePicture'][0].path : null,
+        cvDocuments: req.files['cvDocuments'] ? req.files['cvDocuments'][0].path : null,
+      });
 
-    const token = createToken(user._id);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({ user: user._id });
-  } catch (err) {
-    const errors = handleErrors(err);
-    res.status(400).json({ errors });
-  }
+      const token = createToken(user._id);
+      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+      res.status(201).json({ user: user._id });
+    } catch (err) {
+      const errors = handleErrors(err);
+      res.status(400).json({ errors });
+    }
+  });
 };
+
 
 // Login
 module.exports.login_get = (req, res) => {

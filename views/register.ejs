@@ -3,7 +3,7 @@
 <main>
   <h1 class="title">Create your <span class="red-title">account</span></h1>
 
-  <form class="name" enctype="multipart/form-data">
+  <form class="name" action="/register" method="POST" enctype="multipart/form-data">
     <div class="container">
       <div class="container-firstname">
         <label for="firstname" class="firstname">Firstname</label>
@@ -31,11 +31,11 @@
     <div class="container-upload">
       <div class="profile">
         <label for="picture" class="picture">Profile-picture</label>
-        <input id="picture" class="input-picture" type="file" name="picture" />
+        <input id="profilePicture" class="input-picture" type="file" name="profilePicture" />
       </div>
       <div class="curriculum">
         <label for="curriculum" class="cv">CV</label>
-        <input id="curriculum" class="input-cv" type="file" name="curriculum" />
+        <input id="cvDocuments" class="input-cv" type="file" name="cvDocuments" />
       </div>
     </div>
 
@@ -75,57 +75,43 @@
 </main>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector("form");
-    const emailError = document.querySelector(".email.error");
-    const passwordError = document.querySelector(".password.error");
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector("form");
+  const emailError = document.querySelector(".email.error");
+  const passwordError = document.querySelector(".password.error");
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      // reset les messages d'erreur
-      emailError.textContent = "";
-      passwordError.textContent = "";
+    // reset les messages d'erreur
+    emailError.textContent = "";
+    passwordError.textContent = "";
 
-      // get the values
-      const email = form.email.value;
-      const password = form.password.value;
-      const firstname = form.firstname.value;
-      const lastname = form.lastname.value;
-      const github = form.github.value;
-      const picture = form.picture.value;
-      const curriculum = form.curriculum.value;
+    // Créer un objet FormData
+    const formData = new FormData(form);
 
-      // reset input values
-      form.email.value = '';
-      form.password.value = '';
-      form.firstname.value = '';
-      form.lastname.value = '';
-      form.github.value = '';
-      form.picture.value = '';
-      form.curriculum.value = '';
+    try {
+      const res = await fetch("/register", {
+        method: "POST",
+        body: formData,  // Utilisation de FormData pour l'envoi
+      });
 
-      try {
-        const res = await fetch("/register", {
-          method: "POST",
-          body: JSON.stringify({ firstname, lastname, email, password, github, picture, curriculum }),
-          headers: { "Content-Type": "application/json" },
-        });
-        const data = await res.json();
-        if (data.errors) {
-          if (data.errors.email) {
-            emailError.textContent = data.errors.email;
-          }
-          if (data.errors.password) {
-            passwordError.textContent = data.errors.password;
-          }
+      const data = await res.json();
+      if (data.errors) {
+        if (data.errors.email) {
+          emailError.textContent = data.errors.email;
         }
-        if (data.user) {
-          location.assign("/dashboard");
+        if (data.errors.password) {
+          passwordError.textContent = data.errors.password;
         }
-      } catch (error) {
-        console.log(error);
       }
-    });
+      if (data.user) {
+        location.assign("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   });
+});
+
 </script>
