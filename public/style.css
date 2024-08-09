@@ -84,19 +84,25 @@ main form {
   width: 100%;
   max-width: 500px;
 }
-main form .input-login, main form .name, main form .createjob {
-  max-width: 400px;
-  width: 100%;
+main form .container {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
-main form .input-login label, main form .name label, main form .createjob label {
+main form .container .container-firstname,
+main form .container .container-lastname {
+  width: 48%;
+}
+main form .container .container-firstname label,
+main form .container .container-lastname label {
   display: block;
   font-family: "Inter", sans-serif;
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 5px;
 }
-main form .input-login input, main form .input-login textarea, main form .name input, main form .name textarea, main form .createjob input, main form .createjob textarea {
+main form .container .container-firstname input,
+main form .container .container-lastname input {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -104,26 +110,50 @@ main form .input-login input, main form .input-login textarea, main form .name i
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-main form .input-login input:focus, main form .input-login textarea:focus, main form .name input:focus, main form .name textarea:focus, main form .createjob input:focus, main form .createjob textarea:focus {
+main form .container .container-firstname input:focus,
+main form .container .container-lastname input:focus {
   border-color: #3498db;
   outline: none;
 }
-main form .input-login textarea, main form .name textarea, main form .createjob textarea {
-  height: 100px;
-  resize: none;
+main form label {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 5px;
 }
-main form .input-login .error, main form .name .error, main form .createjob .error {
+main form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+main form input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+main form .container-upload {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+main form .container-upload .profile,
+main form .container-upload .curriculum {
+  width: 48%;
+}
+main form .error {
   color: #e74c3c;
   font-size: 14px;
   margin-top: 5px;
 }
-main form .btn-container {
+main form .btn-register {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
-main .btn-update,
-main button {
+main form .btn-register button {
   background-color: #3498db;
   color: #ffffff;
   padding: 10px 20px;
@@ -133,41 +163,32 @@ main button {
   font-weight: 500;
   cursor: pointer;
   border: none;
-  display: inline-block;
 }
-main .btn-update:hover,
-main button:hover {
+main form .btn-register button:hover {
   background-color: #2ecc71;
 }
-main .register, main .login {
+main form .login {
   text-align: center;
   margin-top: 20px;
   font-size: 14px;
 }
-main .register a, main .login a {
-  color: #3498db;
-  text-decoration: none;
-}
-main .register a:hover, main .login a:hover {
+main form .login .red-login {
   color: #2ecc71;
+  padding: 10px 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 500;
+  border: none;
+  display: inline-block;
 }
-main .container {
-  display: flex;
-  justify-content: space-between;
+main form .login .red-login:hover {
+  background-color: #2ecc71;
 }
-main .container .container-firstname, main .container .container-lastname {
-  width: 48%;
-}
-main .container .container-firstname input, main .container .container-lastname input {
-  padding: 10px;
-  font-size: 16px;
-}
-main .container-upload {
-  display: flex;
-  justify-content: space-between;
-}
-main .container-upload .profile, main .container-upload .curriculum {
-  width: 48%;
+main form .login .red-login a {
+  text-decoration: none;
+  color: inherit;
 }
 main .img-info {
   display: flex;
@@ -208,6 +229,24 @@ main .img-info .file-label:hover {
 }
 main .img-info .reset-password {
   margin-top: 20px;
+}
+main button {
+  background-color: #3498db;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+}
+main button:hover {
+  background-color: #2ecc71;
+}
+main textarea {
+  width: 100%;
+  height: 100px;
 }
 main .link-dashboard {
   display: block;
@@ -264,15 +303,18 @@ main .origin-status {
   gap: 20px;
   margin-top: 20px;
 }
-main .origin-status .origin, main .origin-status .status {
+main .origin-status .origin,
+main .origin-status .status {
   display: flex;
   width: 100%;
   max-width: 300px;
 }
-main .origin-status .origin label, main .origin-status .status label {
+main .origin-status .origin label,
+main .origin-status .status label {
   margin-bottom: 10px;
 }
-main .origin-status .origin ul, main .origin-status .status ul {
+main .origin-status .origin ul,
+main .origin-status .status ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -280,18 +322,22 @@ main .origin-status .origin ul, main .origin-status .status ul {
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-main .origin-status .origin ul li, main .origin-status .status ul li {
+main .origin-status .origin ul li,
+main .origin-status .status ul li {
   padding: 10px;
   border-bottom: 1px solid #ccc;
 }
-main .origin-status .origin ul li:last-child, main .origin-status .status ul li:last-child {
+main .origin-status .origin ul li:last-child,
+main .origin-status .status ul li:last-child {
   border-bottom: none;
 }
-main .origin-status .origin ul li:hover, main .origin-status .status ul li:hover {
+main .origin-status .origin ul li:hover,
+main .origin-status .status ul li:hover {
   background-color: #2ecc71;
   color: #ffffff;
 }
-main .origin-status .origin ul li input[type=radio], main .origin-status .status ul li input[type=radio] {
+main .origin-status .origin ul li input[type=radio],
+main .origin-status .status ul li input[type=radio] {
   margin-left: 170px;
 }
 main .container-card {
@@ -354,6 +400,23 @@ main .container-card .card-job .status {
   background-color: lightcoral;
 }
 
+.file-input {
+  display: none;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px 0;
+}
+.file-label:hover {
+  background-color: #2ecc71;
+}
+
 @media (max-width: 320px) {
   nav .container-nav {
     flex-direction: column;
@@ -365,7 +428,9 @@ main .container-card .card-job .status {
   .img-info {
     align-items: center;
   }
-  .profile, .createjob, .info-job {
+  .profile,
+  .createjob,
+  .info-job {
     width: 100%;
     padding: 20px;
   }
