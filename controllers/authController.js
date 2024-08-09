@@ -76,62 +76,29 @@ module.exports.register_post = async (req, res) => {
     email,
     password,
     github,
+    profilePicture,
+    cvDocuments,
   } = req.body;
 
   try {
-      // Validate uploaded files
-      if (!req.files || !req.files.profilePicture || !req.files.cvDocuments) {
-          return res.status(400).json({ errors: { message: 'Files are missing' } });
-      }
-  
-      const profilePicture = req.files.profilePicture;
-      const cvDocuments = Array.isArray(req.files.cvDocuments) ? req.files.cvDocuments : [req.files.cvDocuments];
-  
-      // Connect to the FTP server
-      await connectFTP();
-  
-      // Upload profile picture
-      await new Promise((resolve, reject) => {
-          ftpClient.put(profilePicture.data, `/uploads/${profilePicture.name}`, err => {
-              if (err) return reject(err);
-              console.log(`Profile picture uploaded: ${profilePicture.name}`);
-              resolve();
-          });
-      });
-  
-      // Upload CV documents
-      for (const cvDocument of cvDocuments) {
-          await new Promise((resolve, reject) => {
-              ftpClient.put(cvDocument.data, `/uploads/${cvDocument.name}`, err => {
-                  if (err) return reject(err);
-                  console.log(`CV uploaded: ${cvDocument.name}`);
-                  resolve();
-              });
-          });
-      }
-  
-      // Disconnect from FTP
-      ftpClient.end();
 
-      const user = await User.create({
-        firstname,
-        lastname,
-        email,
-        password,
-        github,
-        profilePicture: profilePicture.name,
-        cvDocuments: cvDocuments.map(doc => doc.name),
-      });
+    const user = await User.create({
+      firstname,
+      lastname,
+      email,
+      password,
+      github,
+      profilePicture,
+      cvDocuments,
+    });
 
-      const token = createToken(user._id);
-      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-      res.status(201).json({ user: user._id });
+
+    const token = createToken(user._id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.status(201).json({ user: user._id });
   } catch (err) {
-      const errors = handleErrors(err);
-      res.status(400).json({ errors });
-  } finally {
-      // Ensure the FTP client disconnects even if an error occurs
-      if (ftpClient) ftpClient.end();
+    const errors = handleErrors(err);
+    res.status(400).json({ errors });
   }
 };
 
