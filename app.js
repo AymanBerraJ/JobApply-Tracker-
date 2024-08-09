@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const { requireAuth, checkUser } = require('./middleware/authMiddleware')
 const path = require("path");
 const ftp = require('ftp')
-const expressFileUpload = require('express-fileupload')
+const fileUpload = require('express-fileupload')
 const port = 3000;
 
 // import ejs
@@ -25,6 +25,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(requireAuth);
+app.use(fileUpload())
 
 
 // routes
