@@ -6,23 +6,23 @@ const fileUpload = require('express-fileupload')
 
 // config ftp
 
-const ftpClient = new ftp()
+// const ftpClient = new ftp()
 
-const ftpConfig = {
-  host: 'ftp.infinityfree.com',  // replace with your FTP host
-  user: 'if0_37071645', // replace with your FTP username
-  password: 'ECiqb8MrdVa' // replace with your FTP password
-};
+// const ftpConfig = {
+//   host: 'ftp.infinityfree.com',  // replace with your FTP host
+//   user: 'if0_37071645', // replace with your FTP username
+//   password: 'ECiqb8MrdVa' // replace with your FTP password
+// };
 
 
-// Connect to the FTP server
-function connectFTP() {
-  return new Promise((resolve, reject) => {
-      ftpClient.on('ready', resolve);
-      ftpClient.on('error', reject);
-      ftpClient.connect(ftpConfig);
-  });
-}
+// // Connect to the FTP server
+// function connectFTP() {
+//   return new Promise((resolve, reject) => {
+//       ftpClient.on('ready', resolve);
+//       ftpClient.on('error', reject);
+//       ftpClient.connect(ftpConfig);
+//   });
+// }
 
 //handle errors
 

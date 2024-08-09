@@ -5,9 +5,9 @@ const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
 const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 const path = require("path");
-const ftp = require('ftp');
-const fileUpload = require('express-fileupload');
 const port = 3000;
+// const ftp = require('ftp');
+// const fileUpload = require('express-fileupload');
 
 // import ejs
 app.set("view engine", "ejs");
@@ -19,12 +19,6 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 }, // Limite de taille de fichier à 50MB
-    useTempFiles: true, // Utilisation de fichiers temporaires pour éviter les problèmes de mémoire
-    tempFileDir: '/tmp/' // Dossier pour les fichiers temporaires
-}));
-
 app.use((req, res, next) => {
   res.locals.user = req.user || null; // Assigner l'utilisateur localement à res.locals.user
   next();
