@@ -2,8 +2,10 @@ const User = require("../models/User");
 const Job = require("../models/job");
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs')
-const ftp = require('ftp')
-const fileUpload = require('express-fileupload')
+const fs = require('fs');
+
+// const ftp = require('ftp')
+// const fileUpload = require('express-fileupload')
 
 // config ftp
 
@@ -262,43 +264,75 @@ module.exports.editjob_post = async (req, res) => {
 }
 
 // update profile
-
-module.exports.updateprofil_get = (req, res) => {
+module.exports.updateprofile_get = (req, res) => {
   res.render("updateprofile");
 };
-module.exports.updateprofile_post =  async (req, res) => {
+module.exports.updateprofile_post = async (req, res) => {
+  const userId = req.user._id;
   
-  const { oldPassword, newPassword } = req.body;
-  const userId = req.user._id; // L'ID de l'utilisateur connecté, supposant que vous utilisez une session ou JWT pour l'authentification
-  console.log(userId);
-  
-  try {
-      // Récupérer l'utilisateur depuis la base de données
+  // Gérer l'upload du nouveau CV
+  upload.single('cvDocuments')(req, res, async function (err) {
+    if (err) {
+      return res.status(400).json({ errors: err.message });
+    }
+
+    try {
       const user = await User.findById(userId);
       if (!user) {
-          return res.status(404).json({ message: 'Utilisateur non trouvé' });
+        return res.status(404).json({ message: 'Utilisateur non trouvé' });
       }
 
-      // Vérifier que l'ancien mot de passe est correct
-      const isMatch = await bcrypt.compare(oldPassword, user.password);
-      if (!isMatch) {
-          return res.status(400).json({ message: 'Ancien mot de passe incorrect' });
+      // Si l'utilisateur a déjà un CV, supprimez l'ancien fichier
+      if (user.cvDocuments) {
+        const oldFilePath = path.join(__dirname, '..', user.cvDocuments);
+        if (fs.existsSync(oldFilePath)) {
+          fs.unlinkSync(oldFilePath);
+        }
       }
 
-      // Hacher le nouveau mot de passe
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+      // Enregistrer le chemin du nouveau CV
+      if (req.file) {
+        user.cvDocuments = req.file.path;
+      }
 
-      // Mettre à jour le mot de passe dans la base de données
-      user.password = hashedPassword;
       await user.save();
-
-      res.status(200).json({ message: 'Mot de passe modifié avec succès' });
-  } catch (err) {
-      console.error('Erreur lors de la modification du mot de passe:', err);
+      res.redirect('/updateprofile');
+    } catch (err) {
+      console.error('Erreur lors de la mise à jour du CV:', err);
       res.status(500).json({ message: 'Erreur serveur' });
+    }
+  });
+};
+
+
+module.exports.download_cv = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await User.findById(userId);
+
+    if (!user || !user.cvDocuments) {
+      return res.status(404).json({ message: 'CV non trouvé' });
+    }
+
+    const filePath = path.join(__dirname, '..', user.cvDocuments);
+
+    // Vérifier si le fichier existe
+    if (fs.existsSync(filePath)) {
+      res.download(filePath, (err) => {
+        if (err) {
+          console.error('Erreur lors du téléchargement du fichier:', err);
+          res.status(500).json({ message: 'Erreur serveur' });
+        }
+      });
+    } else {
+      res.status(404).json({ message: 'Fichier introuvable' });
+    }
+  } catch (err) {
+    console.error('Erreur lors de la récupération du CV:', err);
+    res.status(500).json({ message: 'Erreur serveur' });
   }
 };
+
 
 // delete
 // module.exports.deleteJob_delete = async (req, res) => {
@@ -309,3 +343,35 @@ module.exports.updateprofile_post =  async (req, res) => {
 //       console.log(error)
 //   }
 // }
+
+// delete cv update
+
+module.exports.delete_cv = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+
+    if (!user || !user.cvDocuments) {
+      return res.status(404).json({ message: 'CV non trouvé' });
+    }
+
+    const filePath = path.join(__dirname, '..', user.cvDocuments);
+
+    // Supprimer le fichier du serveur
+    fs.unlink(filePath, async (err) => {
+      if (err) {
+        console.error('Erreur lors de la suppression du fichier:', err);
+        return res.status(500).json({ message: 'Erreur lors de la suppression du fichier' });
+      }
+
+      // Mettre à jour l'utilisateur pour supprimer la référence du CV
+      user.cvDocuments = null;
+      await user.save();
+
+      res.redirect('/updateprofile');
+    });
+  } catch (err) {
+    console.error('Erreur lors de la suppression du CV:', err);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+};

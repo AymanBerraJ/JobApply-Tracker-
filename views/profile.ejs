@@ -12,6 +12,14 @@
             <p>Full name : <%= user.firstname+' '+user.lastname %> </p>
             <p>Email : <%= user.email %> </p>
             <p>GitHub : <%= user.github %></p>
+            <label>Your C.V :</label>
+            <div>
+                <% if (user.cvDocuments) { %>
+                    <a href="/download-cv/<%= user._id %>" class="btn btn-primary">Download C.V</a>
+                <% } else { %>
+                    <p>No C.V Download</p>
+                <% } %>
+            </div>
 
             <div class="reset-password">
                 <button id="resetPasswordButton" class="file-button">Update</button>
