@@ -1,8 +1,8 @@
 const User = require("../models/User");
 const Job = require("../models/job");
 const jwt = require("jsonwebtoken");
-const bcrypt = require('bcryptjs')
-const fs = require('fs');
+const bcrypt = require("bcryptjs");
+const fs = require("fs");
 
 // const ftp = require('ftp')
 // const fileUpload = require('express-fileupload')
@@ -17,7 +17,6 @@ const fs = require('fs');
 //   password: 'ECiqb8MrdVa' // replace with your FTP password
 // };
 
-
 // // Connect to the FTP server
 // function connectFTP() {
 //   return new Promise((resolve, reject) => {
@@ -27,29 +26,29 @@ const fs = require('fs');
 //   });
 // }
 
-
 // Multer Fichier
 
-const multer = require('multer');
-const path = require('path');
+const multer = require("multer");
+const path = require("path");
 
 // Configuration de multer pour le stockage sur disque
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    if (file.fieldname === 'profilePicture') {
-      cb(null, './uploads/profilePictures');
-    } else if (file.fieldname === 'cvDocuments') {
-      cb(null, './uploads/cvDocuments');
+    if (file.fieldname === "profilePicture") {
+      cb(null, "./uploads/profilePictures");
+    } else if (file.fieldname === "cvDocuments") {
+      cb(null, "./uploads/cvDocuments");
     }
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-  }
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
 });
 
 const upload = multer({ storage: storage });
-
-
 
 //handle errors
 
@@ -97,18 +96,15 @@ module.exports.register_get = (req, res) => {
   res.render("register");
 };
 module.exports.register_post = async (req, res) => {
-  upload.fields([{ name: 'profilePicture', maxCount: 1 }, { name: 'cvDocuments', maxCount: 1 }])(req, res, async function (err) {
+  upload.fields([
+    { name: "profilePicture", maxCount: 1 },
+    { name: "cvDocuments", maxCount: 1 },
+  ])(req, res, async function (err) {
     if (err) {
       return res.status(400).json({ errors: err.message });
     }
 
-    const {
-      firstname,
-      lastname,
-      email,
-      password,
-      github,
-    } = req.body;
+    const { firstname, lastname, email, password, github } = req.body;
 
     try {
       const user = await User.create({
@@ -117,8 +113,12 @@ module.exports.register_post = async (req, res) => {
         email,
         password,
         github,
-        profilePicture: req.files['profilePicture'] ? req.files['profilePicture'][0].path : null,
-        cvDocuments: req.files['cvDocuments'] ? req.files['cvDocuments'][0].path : null,
+        profilePicture: req.files["profilePicture"]
+          ? req.files["profilePicture"][0].path
+          : null,
+        cvDocuments: req.files["cvDocuments"]
+          ? req.files["cvDocuments"][0].path
+          : null,
       });
 
       const token = createToken(user._id);
@@ -140,14 +140,30 @@ module.exports.login_get = (req, res) => {
 module.exports.login_post = async (req, res) => {
   const { email, password } = req.body;
 
+  console.log("Email reçu :", email);
+  console.log("Mot de passe reçu :", password);
+
   try {
-    const user = await User.login(email, password);
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "Email ou mot de passe incorrect" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ message: "Email ou mot de passe incorrect" });
+    }
+
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ user: user._id });
   } catch (err) {
-    const errors = handleErrors(err);
-    res.status(400).json({ errors });
+    console.error("Erreur lors de la connexion:", err);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 
@@ -227,83 +243,87 @@ module.exports.job_get = async (req, res) => {
 };
 
 // job update
-module.exports.editjob_get  = async (req, res) => {
+module.exports.editjob_get = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
     if (job) {
-        res.render('editjob', { data: job });
+      res.render("editjob", { data: job });
     } else {
-        res.status(404).send('Job not found');
+      res.status(404).send("Job not found");
     }
-} catch (error) {
+  } catch (error) {
     console.log(error);
-    res.status(500).send('Server Error');
-}
-}
+    res.status(500).send("Server Error");
+  }
+};
 module.exports.editjob_post = async (req, res) => {
   try {
-    const job = await Job.findByIdAndUpdate(req.params.id, {
-      jobtitle: req.body.jobtitle,
-      jobcompany: req.body.jobcompany,
-      website: req.body.website,
-      nameemployer: req.body.nameemployer,
-      emailcontact: req.body.emailcontact,
-      phonenumber: req.body.phonenumber,
-      address: req.body.address,
-      origin: req.body.origin,
-      status: req.body.status,
-      comments: req.body.comments,
-    }, { new: true });
+    const job = await Job.findByIdAndUpdate(
+      req.params.id,
+      {
+        jobtitle: req.body.jobtitle,
+        jobcompany: req.body.jobcompany,
+        website: req.body.website,
+        nameemployer: req.body.nameemployer,
+        emailcontact: req.body.emailcontact,
+        phonenumber: req.body.phonenumber,
+        address: req.body.address,
+        origin: req.body.origin,
+        status: req.body.status,
+        comments: req.body.comments,
+      },
+      { new: true }
+    );
 
-    console.log('Job updated successfully');
+    console.log("Job updated successfully");
     res.json({ job });
   } catch (error) {
-    console.log('Error updating job:', error);
-    res.status(500).json({ message: 'Server Error', error });
+    console.log("Error updating job:", error);
+    res.status(500).json({ message: "Server Error", error });
   }
-}
+};
 
 // update profile
 module.exports.updateprofile_get = (req, res) => {
   res.render("updateprofile");
 };
 module.exports.updateprofile_post = async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
   const userId = req.user._id;
-  
-  // Gérer l'upload du nouveau CV
-  upload.single('cvDocuments')(req, res, async function (err) {
-    if (err) {
-      return res.status(400).json({ errors: err.message });
+
+  try {
+    // Trouver l'utilisateur par ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé' });
     }
 
-    try {
-      const user = await User.findById(userId);
-      if (!user) {
-        return res.status(404).json({ message: 'Utilisateur non trouvé' });
-      }
-
-      // Si l'utilisateur a déjà un CV, supprimez l'ancien fichier
-      if (user.cvDocuments) {
-        const oldFilePath = path.join(__dirname, '..', user.cvDocuments);
-        if (fs.existsSync(oldFilePath)) {
-          fs.unlinkSync(oldFilePath);
-        }
-      }
-
-      // Enregistrer le chemin du nouveau CV
-      if (req.file) {
-        user.cvDocuments = req.file.path;
-      }
-
-      await user.save();
-      res.redirect('/updateprofile');
-    } catch (err) {
-      console.error('Erreur lors de la mise à jour du CV:', err);
-      res.status(500).json({ message: 'Erreur serveur' });
+    // Vérifier que l'ancien mot de passe est correct
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Ancien mot de passe incorrect' });
     }
-  });
+
+    // Hacher le nouveau mot de passe
+    if (newPassword) {
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+      user.password = hashedPassword;
+    } else {
+      return res.status(400).json({ message: 'Nouveau mot de passe requis' });
+    }
+
+    // Enregistrer l'utilisateur avec le nouveau mot de passe
+    await user.save();
+
+    console.log("Mot de passe mis à jour pour l'utilisateur :", user.email);
+
+    res.status(200).json({ message: 'Mot de passe modifié avec succès' });
+  } catch (err) {
+    console.error('Erreur lors de la modification du mot de passe:', err);
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
 };
-
 
 module.exports.download_cv = async (req, res) => {
   try {
@@ -311,28 +331,27 @@ module.exports.download_cv = async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user || !user.cvDocuments) {
-      return res.status(404).json({ message: 'CV non trouvé' });
+      return res.status(404).json({ message: "CV non trouvé" });
     }
 
-    const filePath = path.join(__dirname, '..', user.cvDocuments);
+    const filePath = path.join(__dirname, "..", user.cvDocuments);
 
     // Vérifier si le fichier existe
     if (fs.existsSync(filePath)) {
       res.download(filePath, (err) => {
         if (err) {
-          console.error('Erreur lors du téléchargement du fichier:', err);
-          res.status(500).json({ message: 'Erreur serveur' });
+          console.error("Erreur lors du téléchargement du fichier:", err);
+          res.status(500).json({ message: "Erreur serveur" });
         }
       });
     } else {
-      res.status(404).json({ message: 'Fichier introuvable' });
+      res.status(404).json({ message: "Fichier introuvable" });
     }
   } catch (err) {
-    console.error('Erreur lors de la récupération du CV:', err);
-    res.status(500).json({ message: 'Erreur serveur' });
+    console.error("Erreur lors de la récupération du CV:", err);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
-
 
 // delete
 // module.exports.deleteJob_delete = async (req, res) => {
@@ -352,26 +371,28 @@ module.exports.delete_cv = async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user || !user.cvDocuments) {
-      return res.status(404).json({ message: 'CV non trouvé' });
+      return res.status(404).json({ message: "CV non trouvé" });
     }
 
-    const filePath = path.join(__dirname, '..', user.cvDocuments);
+    const filePath = path.join(__dirname, "..", user.cvDocuments);
 
     // Supprimer le fichier du serveur
     fs.unlink(filePath, async (err) => {
       if (err) {
-        console.error('Erreur lors de la suppression du fichier:', err);
-        return res.status(500).json({ message: 'Erreur lors de la suppression du fichier' });
+        console.error("Erreur lors de la suppression du fichier:", err);
+        return res
+          .status(500)
+          .json({ message: "Erreur lors de la suppression du fichier" });
       }
 
       // Mettre à jour l'utilisateur pour supprimer la référence du CV
       user.cvDocuments = null;
       await user.save();
 
-      res.redirect('/updateprofile');
+      res.redirect("/updateprofile");
     });
   } catch (err) {
-    console.error('Erreur lors de la suppression du CV:', err);
-    res.status(500).json({ message: 'Erreur serveur' });
+    console.error("Erreur lors de la suppression du CV:", err);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
