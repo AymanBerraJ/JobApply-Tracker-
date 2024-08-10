@@ -19,10 +19,13 @@ router.get('/createjob', requireAuth, authController.createjob_get)
 router.post('/createjob', authController.createjob_post)
 
 // router.get('/job', authController.job_get)
-router.get('/job/:id', authController.job_get)
+router.get('/job/:id', requireAuth, authController.job_get)
 
 router.get('/editjob/:id', requireAuth, authController.editjob_get)
 router.post('/editjob/:id', authController.editjob_post)
+
+router.get('/updateprofile', requireAuth, authController.updateprofil_get)
+// router.post('/updateprofile', requireAuth, authController.updateprofil_post)
 
 router.get('/logout', authController.logout_get)
 

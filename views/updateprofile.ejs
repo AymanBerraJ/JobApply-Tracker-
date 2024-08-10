@@ -1,0 +1,77 @@
+<%- include('partials/head'); -%>
+
+<main>
+
+    <h1 class="title">Update your Profile</h1>
+    <a class="link-dashboard" href="/profile">Return to Profile</a>
+
+    <main>
+        <h1 class="title">Edit Job</h1>
+        <a class="link-dashboard" href="/dashboard">Return to Dashboard</a>
+      
+        <form action="/updateprofile" method="POST">
+
+            <div class="updateprofile">
+                <label for="firstname">Firstname</label>
+                <input type="text" name="firstname" id="firstname" value="<%= user.firstname %>">
+
+                <label for="lastname">Lastname</label>
+                <input type="text" name="lastname" id="lastname" value="<%= user.lastname %>">
+
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" value="<%= user.email %>">
+
+                <label for="github">GitHub</label>
+                <input type="text" name="github" id="github" value="<%= user.github %>">
+
+                <label for="oldpassword">Enter the current Password</label>
+                <input type="password" name="oldpassword" id="oldpassword" placeholder="...">
+
+                <label for="newpassword">Enter the New Password</label>
+                <input type="password" name="newpassword" id="newpassword" placeholder="...">
+
+                
+            </div>
+      
+            <div class="btn-save">
+              <button type="submit">Save</button>
+            </div>
+          </div>
+        </form>
+      </main>
+
+</main>
+
+<script>
+    const form = document.querySelector("form")
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault()
+
+        const firstname = form.firstname.value
+        const lastname = form.last.value
+        const email = form.email.value
+        const github = form.github.value
+        const password = form.password.value
+        // const cvDocuments =
+        // const profilePicture = 
+
+
+        try {
+            const res = await fetch(`/profile`, {
+                method: "POST",
+                body: JSON.stringify({
+                    firstname,
+                    lastname,
+                    email,
+                    github,
+                    password
+                }),
+                headers: {"Content-Type": "application/json"},
+            })
+        } catch (error) {
+            console.log(error);
+            
+        }
+    })
+</script>
