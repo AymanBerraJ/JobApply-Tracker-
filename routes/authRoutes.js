@@ -29,7 +29,7 @@ router.post('/updateprofile', requireAuth, authController.updateprofile_post)
 
 router.get('/download-cv/:userId', requireAuth, authController.download_cv);
 
-router.post('/delete-cv', requireAuth, authController.delete_cv);
+// router.post('/delete-cv', requireAuth, authController.delete_cv);
 
 
 router.get('/logout', authController.logout_get)

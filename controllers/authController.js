@@ -289,9 +289,11 @@ module.exports.updateprofile_get = (req, res) => {
 };
 module.exports.updateprofile_post = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
-  const userId = req.user._id;
+  const userId = req.user._id; // L'utilisateur actuellement connecté
 
   try {
+    console.log("Ancien mot de passe fourni :", oldPassword);
+    console.log("Nouveau mot de passe fourni :", newPassword);
     // Trouver l'utilisateur par ID
     const user = await User.findById(userId);
     if (!user) {
@@ -321,9 +323,14 @@ module.exports.updateprofile_post = async (req, res) => {
     res.status(200).json({ message: 'Mot de passe modifié avec succès' });
   } catch (err) {
     console.error('Erreur lors de la modification du mot de passe:', err);
-    res.status(500).json({ message: 'Erreur serveur' });
+
+    // Retourner une réponse plus descriptive pour aider au débogage
+    res.status(500).json({ message: 'Erreur serveur', error: err.message });
   }
+  res.redirect('/profile')
 };
+
+
 
 module.exports.download_cv = async (req, res) => {
   try {
@@ -365,34 +372,34 @@ module.exports.download_cv = async (req, res) => {
 
 // delete cv update
 
-module.exports.delete_cv = async (req, res) => {
-  try {
-    const userId = req.user._id;
-    const user = await User.findById(userId);
+// module.exports.delete_cv = async (req, res) => {
+//   try {
+//     const userId = req.user._id;
+//     const user = await User.findById(userId);
 
-    if (!user || !user.cvDocuments) {
-      return res.status(404).json({ message: "CV non trouvé" });
-    }
+//     if (!user || !user.cvDocuments) {
+//       return res.status(404).json({ message: "CV non trouvé" });
+//     }
 
-    const filePath = path.join(__dirname, "..", user.cvDocuments);
+//     const filePath = path.join(__dirname, "..", user.cvDocuments);
 
-    // Supprimer le fichier du serveur
-    fs.unlink(filePath, async (err) => {
-      if (err) {
-        console.error("Erreur lors de la suppression du fichier:", err);
-        return res
-          .status(500)
-          .json({ message: "Erreur lors de la suppression du fichier" });
-      }
+//     // Supprimer le fichier du serveur
+//     fs.unlink(filePath, async (err) => {
+//       if (err) {
+//         console.error("Erreur lors de la suppression du fichier:", err);
+//         return res
+//           .status(500)
+//           .json({ message: "Erreur lors de la suppression du fichier" });
+//       }
 
-      // Mettre à jour l'utilisateur pour supprimer la référence du CV
-      user.cvDocuments = null;
-      await user.save();
+//       // Mettre à jour l'utilisateur pour supprimer la référence du CV
+//       user.cvDocuments = null;
+//       await user.save();
 
-      res.redirect("/updateprofile");
-    });
-  } catch (err) {
-    console.error("Erreur lors de la suppression du CV:", err);
-    res.status(500).json({ message: "Erreur serveur" });
-  }
-};
+//       res.redirect("/updateprofile");
+//     });
+//   } catch (err) {
+//     console.error("Erreur lors de la suppression du CV:", err);
+//     res.status(500).json({ message: "Erreur serveur" });
+//   }
+// };
