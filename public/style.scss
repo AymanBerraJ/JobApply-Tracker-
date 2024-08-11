@@ -512,3 +512,19 @@ main {
     align-items: center;
   }
 }
+// filter search
+.search-container{
+  margin-top: 20px;
+  form{
+    display: flex;
+    gap: 20px;
+
+    button{
+      padding: 10px;
+    }
+
+    label{
+      font-size: 15px;
+    }
+  }
+}

@@ -4,23 +4,21 @@
   <h1 class="title">Dashboard</h1>
   <h2><a href="/createjob">Create a New Job</a></h2>
 
-  <!-- <div class="filter-order">
-    <div class="filter">
-      <ul>
-        <span>Filter</span>
-        <li>Status</li>
-        <li>Date</li>
-      </ul>
-    </div>
-
-    <div class="order">
-      <ul>
-        <span>Order</span>
-        <li>Asc.</li>
-        <li>Desc.</li>
-      </ul>
-    </div>
-  </div> -->
+  <div class="search-container">
+    <form id="job-results-form" class="job-results-form">
+      <div class="form-group">
+        <label for="ByStatus" class="title-filter">By Status</label>
+        <select name="ByStatus" id="ByStatus">
+          <option value="" <%= (typeof status === 'undefined' || status === '') ? 'selected' : '' %>>All</option>
+          <option value="Interested" <%= (typeof status !== 'undefined' && status === 'Interested') ? 'selected' : '' %>>Interested</option>
+          <option value="CV Sent" <%= (typeof status !== 'undefined' && status === 'CV Sent') ? 'selected' : '' %>>CV Sent</option>
+          <option value="Negative" <%= (typeof status !== 'undefined' && status === 'Negative') ? 'selected' : '' %>>Negative</option>
+          <option value="Interview" <%= (typeof status !== 'undefined' && status === 'Interview') ? 'selected' : '' %>>Interview</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-filter">Search</button>
+    </form>
+  </div>
 
   <div class="container-card">
     <% jobs.forEach(job => { %>
@@ -36,6 +34,7 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+
     // declaration status card
 
     const statusElement = document.querySelectorAll(".statusJob");
@@ -51,5 +50,37 @@
         element.classList.add("status-negative");
       }
     });
-  });
+
+    document.getElementById('job-results-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Empêche le rechargement de la page
+
+        // Récupérer la valeur sélectionnée
+        const status = document.getElementById('ByStatus').value;
+
+        console.log('Selected status:', status); // Debugging
+
+        // Appeler la fonction de filtrage
+        filterResults(status);
+    });
+
+    function filterResults(status) {
+        const cards = document.querySelectorAll('.card-job');
+
+        // Filtrer les cartes par statut
+        let hasVisibleCards = false; // Pour vérifier si au moins une carte reste visible
+
+        cards.forEach(card => {
+            if (status === '' || card.getAttribute('data-status') === status) {
+                card.style.display = 'block';
+                hasVisibleCards = true;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        if (!hasVisibleCards) {
+            console.log('No jobs match the selected status.');
+        }
+    }
+  }) 
 </script>
