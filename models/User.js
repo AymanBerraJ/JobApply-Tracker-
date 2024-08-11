@@ -103,7 +103,7 @@ userSchema.post('findOneAndDelete', function(doc) {
   }
 });
 
-// login method to login user
+// login method to login user bcrypt
 
 userSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });

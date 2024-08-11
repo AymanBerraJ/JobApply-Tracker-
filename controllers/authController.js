@@ -284,53 +284,59 @@ module.exports.editjob_post = async (req, res) => {
 };
 
 // update profile
-module.exports.updateprofile_get = (req, res) => {
-  res.render("updateprofile");
-};
-module.exports.updateprofile_post = async (req, res) => {
-  const { oldPassword, newPassword } = req.body;
-  const userId = req.user._id; // L'utilisateur actuellement connecté
-
+module.exports.updateprofile_get = async (req, res) => {
   try {
-    console.log("Ancien mot de passe fourni :", oldPassword);
-    console.log("Nouveau mot de passe fourni :", newPassword);
-    // Trouver l'utilisateur par ID
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: 'Utilisateur non trouvé' });
-    }
-
-    // Vérifier que l'ancien mot de passe est correct
-    const isMatch = await bcrypt.compare(oldPassword, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Ancien mot de passe incorrect' });
-    }
-
-    // Hacher le nouveau mot de passe
-    if (newPassword) {
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
-      user.password = hashedPassword;
+    const user = await User.findById(req.params.id); // Récupérer l'utilisateur par son ID
+    
+    if (user) {
+      res.render("updateprofile", { user: user }); // Passer l'utilisateur à la vue
     } else {
-      return res.status(400).json({ message: 'Nouveau mot de passe requis' });
+      res.status(404).send("Profile not found");
     }
-
-    // Enregistrer l'utilisateur avec le nouveau mot de passe
-    await user.save();
-
-    console.log("Mot de passe mis à jour pour l'utilisateur :", user.email);
-
-    res.status(200).json({ message: 'Mot de passe modifié avec succès' });
-  } catch (err) {
-    console.error('Erreur lors de la modification du mot de passe:', err);
-
-    // Retourner une réponse plus descriptive pour aider au débogage
-    res.status(500).json({ message: 'Erreur serveur', error: err.message });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server Error");
   }
-  res.redirect('/profile')
 };
+module.exports.updateprofile_post = [
+  upload.single('cvDocuments'),  // 'cvDocuments' est le nom du champ de fichier dans le formulaire
+  async (req, res) => {
+    try {
+      // Construire l'objet `updateData` avec les champs qui doivent être mis à jour
+      const updateData = {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        github: req.body.github,
+        password: req.body.newPassword ? req.body.newPassword : req.body.oldPassword,
+      };
 
+      // Si un nouveau fichier CV est téléchargé, mettez à jour le champ `cvDocuments` avec le chemin complet
+      if (req.file) {
+        const filePath = path.join('uploads', 'cvDocuments', req.file.filename);  // Construire le chemin complet du fichier
+        updateData.cvDocuments = filePath;
+      }
 
+      // Mise à jour du profil de l'utilisateur avec les nouvelles données
+      const user = await User.findByIdAndUpdate(
+        req.params.id,
+        updateData,
+        { new: true }  // Option pour retourner le document mis à jour
+      );
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      console.log("Profile updated successfully:", user);
+      res.json({ user });
+
+    } catch (error) {
+      console.log("Error updating Profile:", error);
+      res.status(500).json({ message: "Server Error", error });
+    }
+  }
+];
 
 module.exports.download_cv = async (req, res) => {
   try {
@@ -359,7 +365,6 @@ module.exports.download_cv = async (req, res) => {
     res.status(500).json({ message: "Erreur serveur" });
   }
 };
-
 // delete
 // module.exports.deleteJob_delete = async (req, res) => {
 //   try {

@@ -24,8 +24,8 @@ router.get('/job/:id', requireAuth, authController.job_get)
 router.get('/editjob/:id', requireAuth, authController.editjob_get)
 router.post('/editjob/:id', authController.editjob_post)
 
-router.get('/updateprofile', requireAuth, authController.updateprofile_get)
-router.post('/updateprofile', requireAuth, authController.updateprofile_post)
+router.get('/updateprofile/:id', requireAuth, authController.updateprofile_get)
+router.post('/updateprofile/:id', requireAuth, authController.updateprofile_post)
 
 router.get('/download-cv/:userId', requireAuth, authController.download_cv);
 
