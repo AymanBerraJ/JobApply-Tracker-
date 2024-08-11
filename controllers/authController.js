@@ -31,7 +31,7 @@ const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
 
-// Configuration de multer pour le stockage sur disque
+// Configuration de multer pour le stockage sur disque + creation de route pour le fichier
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     if (file.fieldname === "profilePicture") {
@@ -298,6 +298,7 @@ module.exports.updateprofile_get = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
 module.exports.updateprofile_post = [
   upload.single('cvDocuments'),  // 'cvDocuments' est le nom du champ de fichier dans le formulaire
   async (req, res) => {
@@ -308,8 +309,16 @@ module.exports.updateprofile_post = [
         lastname: req.body.lastname,
         email: req.body.email,
         github: req.body.github,
-        password: req.body.newPassword ? req.body.newPassword : req.body.oldPassword,
       };
+
+      // Gestion du mot de passe hacher le nouveau mot de passe s'il est fourni
+      if (req.body.newPassword) {
+        const hashedPassword = await bcrypt.hash(req.body.newPassword, 10);
+        updateData.password = hashedPassword;
+      } else {
+        // Si aucun nouveau mot de passe n'est fourni, conserver l'ancien
+        updateData.password = req.body.oldPassword;
+      }
 
       // Si un nouveau fichier CV est téléchargé, mettez à jour le champ `cvDocuments` avec le chemin complet
       if (req.file) {
@@ -338,6 +347,8 @@ module.exports.updateprofile_post = [
   }
 ];
 
+
+// update fichier
 module.exports.download_cv = async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -365,6 +376,7 @@ module.exports.download_cv = async (req, res) => {
     res.status(500).json({ message: "Erreur serveur" });
   }
 };
+
 // delete
 // module.exports.deleteJob_delete = async (req, res) => {
 //   try {
